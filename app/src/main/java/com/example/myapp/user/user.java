@@ -1,18 +1,18 @@
 package com.example.myapp.user;
 
-public class user {
+import java.io.Serializable;
+
+public class user implements Serializable {
     private String id;
     private String nameaccount;
     private String password;
     private String fullname;
     private int phonenumber;
+    private static int index =0;
 
 
-    public user() {
-    }
-
-    public user(String id, String nameaccount, String password, String fullname, int phonenumber) {
-        this.id = id;
+    public user( String nameaccount, String password, String fullname, int phonenumber) {
+        this.id = String.valueOf(index++);
         this.nameaccount = nameaccount;
         this.password = password;
         this.fullname = fullname;
