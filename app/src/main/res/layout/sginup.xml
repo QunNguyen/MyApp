@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:src="@mipmap/logo" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:weightSum="4">
+
+            <EditText
+                android:id="@+id/edtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"
+                android:hint="Tên đăng nhập"
+                android:inputType="text"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"
+                android:hint="Mật khẩu"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
+
+            <EditText
+                android:id="@+id/edtFullName"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"
+                android:hint="Họ và tên"
+                android:inputType="text"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
+
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"
+                android:hint="Số điện thoại"
+                android:inputType="phone"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="25dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <Button
+                android:id="@+id/btnSignUp"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/round_button"
+                android:text="Đăng ký"
+                android:textAllCaps="true"
+                android:textSize="17sp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:gravity="center|bottom"
+            android:text="MADE IN NVQ"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
