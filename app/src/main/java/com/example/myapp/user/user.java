@@ -8,18 +8,31 @@ public class user implements Serializable {
     private String password;
     private String fullname;
     private int phonenumber;
-    private static int index =0;
 
+    public user() {
+    }
 
-    public user( String nameaccount, String password, String fullname, int phonenumber) {
-        this.id = String.valueOf(index++);
+    @Override
+    public String toString() {
+        return "user{" +
+                "id=" + id +
+                ", nameaccount='" + nameaccount + '\'' +
+                ", password='" + password + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", phonenumber=" + phonenumber +
+                '}';
+    }
+
+    public user(String UID,String nameaccount, String password, String fullname, int phonenumber) {
+        this.id =UID;
         this.nameaccount = nameaccount;
         this.password = password;
         this.fullname = fullname;
         this.phonenumber = phonenumber;
     }
 
-    public user(String nameaccount, String password) {
+    public user(String id, String nameaccount, String password) {
+        this.id = id;
         this.nameaccount = nameaccount;
         this.password = password;
     }

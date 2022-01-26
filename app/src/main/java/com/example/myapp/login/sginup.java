@@ -1,6 +1,7 @@
 package com.example.myapp.login;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,55 +9,147 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.myapp.Firebase;
 import com.example.myapp.MainActivity;
+import com.example.myapp.firebase.Firebase;
 import com.example.myapp.R;
 import com.example.myapp.user.user;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class sginup extends Activity{
-    private View view;
+    private Button buttonsginup;
+    private List<user> list = new ArrayList<>();
+    private EditText  editText1,editText2,editText3;
+    private  FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sginup);
-        view=(Button) findViewById(R.id.btnSignUp);
-        view.setOnClickListener(new View.OnClickListener() {
+
+        initUi();
+        ininListener();
+    }
+
+    private void initUi() {
+        buttonsginup=findViewById(R.id.btnSignUp);
+
+        editText1=findViewById(R.id.edtUsername);
+        editText2=findViewById(R.id.edtPassword);
+        editText3=findViewById(R.id.edtConfirmPassword);
+    }
+
+    private void ininListener() {
+        //taotaikhoan
+        buttonsginup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               new Firebase().writeNewUser("24",new user("2","2","2",2));
+                onCreateFirebaseAuth();
             }
         });
     }
 
-    public user createNewuser(){
-        String username= view.findViewById(R.id.edtUsername).toString();
-        String password=view.findViewById(R.id.edtPassword).toString();
-        String fullname=view.findViewById(R.id.edtFullName).toString();
-        Integer numberphone=Integer.parseInt(view.findViewById(R.id.edtPhone).toString());
-        String confirmpassword=view.findViewById(R.id.edtConfirmPassword).toString();
-//        if(checkPassword(password)&&checkConfirmPassword(password,confirmpassword)
-//                &&checkNumberPhone(String.valueOf(numberphone))){
-//
-//        }
-        return new user(username,password,fullname,numberphone);
+    private void onCreateFirebaseAuth() {
+
+        String email=editText1.getText().toString().trim();
+        String password=editText2.getText().toString().trim();
+        String confirmpassword=editText3.getText().toString().trim();
+
+        createNewuser(firebaseAuth.getUid(),email,password,confirmpassword);
+
     }
 
-    public boolean checkConfirmPassword(String password,String confirmpassword){
-        if (password.equals(confirmpassword)) return true;
-        return false;
+    private void createNewuser(String Uid,String email,String password,String confirmpassword) {
+        if(validateSgininformEmail(email)&&validateSgininformPassword(password,confirmpassword)){
+            new Firebase().writeNewUser(new user(Uid,email,password));
+
+
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Intent intent=new Intent(sginup.this, MainActivity.class);
+                                startActivity(intent);
+                                finishAffinity();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Toast.makeText(sginup.this,"Faild Sginup",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+        if(!validateSgininformEmail(email)){
+            Toast.makeText(sginup.this,"Fail Email",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(!validateSgininformPassword(password,confirmpassword)){
+            Toast.makeText(sginup.this,"Fail Password",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
     }
 
-    public boolean checkPassword(String password){
+    public boolean validateSgininformPassword(String password,String confirmpassword){
         if(password.length()<8) return false;
-        if(!(password.matches("(?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]).{6,16}"))) return false;
+//        if(!(password.matches("(?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]).{6,16}"))) return false;
+        if (!(password.equals(confirmpassword))) return false;
         return true;
     }
-    public boolean checkNumberPhone(String numberphone){
-        if(9<numberphone.length()&&numberphone.length()<12) return true;
-        return false;
+
+    public boolean validateSgininformEmail(String email){
+        if(email.equals("")) return false;
+        if(!(email.matches("([\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4})?$"))) return false;
+        return true;
     }
+
+
+
+
+//    public user createNewuser1(String UID){
+//        String username=editText1.getText().toString();
+//        String password=editText2.getText().toString();
+//        String confirmpassword=editText3.getText().toString();
+//
+//        return new user(UID,username,password);
+//    }
+
+    public void readUser(){
+        DatabaseReference mDatabase;
+        mDatabase=FirebaseDatabase.getInstance().getReference("users");
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    user user=dataSnapshot.getValue(user.class);
+                    list.add(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(sginup.this,"Faild1",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
 
 }
