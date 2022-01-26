@@ -76,7 +76,6 @@ public class sginup extends Activity{
         if(validateSgininformEmail(email)&&validateSgininformPassword(password,confirmpassword)){
             new Firebase().writeNewUser(new user(Uid,email,password));
 
-
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
