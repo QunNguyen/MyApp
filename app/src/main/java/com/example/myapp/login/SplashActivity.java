@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void nextAcivity() {
         FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-        if(user!=null){
+        if(user != null){
             //chua login
             Intent intent=new Intent(this, sginin.class);
             startActivity(intent);
@@ -38,6 +38,7 @@ public class SplashActivity extends AppCompatActivity {
             //da login
             Intent intent=new Intent(this,MainActivity.class);
             startActivity(intent);
+            finishAffinity();
         }
     }
 }

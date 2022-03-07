@@ -21,6 +21,26 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer" >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="332dp"
+            android:background="@android:color/darker_gray" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="345dp"
+            android:layout_marginLeft="12dp"
+            android:text="Account"
+            android:textStyle="bold|normal"
+            android:textSize="15dp"
+            />
+    </com.google.android.material.navigation.NavigationView>
+
+
+    
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
